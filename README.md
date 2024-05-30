@@ -11,7 +11,7 @@ import the package (gamesearcher.py, or whatever the name is)
 ```py
 from gamesearcher import Search
 ```
-add this line of code to anywhere
+add this line of code to anywhere (not needed, but if you wanna simplify things 🤷‍♂️)
 `search = Search()`
 
 now, to search a game, you can use:
