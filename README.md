@@ -5,7 +5,7 @@ simple bot/library made in python to fetch pirated games, and if possible, share
 `pip install requests discord.py asyncio`
 
 # usage
-this only contains a search feature right now, but you can add more using [this link](https://gamestatus.info/back/api/gameinfo/game/search_title/).
+this only contains a search feature and a popular feature right now, but you can add more using [this link](https://gamestatus.info/back/api/gameinfo/game/search_title/).
 
 import the package (gamesearcher.py, or whatever the name is)
 ```py
@@ -18,6 +18,12 @@ now, to search a game, you can use:
 ```py
 game_info = search.search_game(game)
 ```
+
+to get popular games, use:
+```py
+popular_games_info = game_search.popular_games()
+```
+
 game_info can be any variable. to check if it's working, just
 `print(game_info)`
 this will output a json string
