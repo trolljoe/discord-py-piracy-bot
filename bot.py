@@ -24,23 +24,29 @@ search = Search()
 
 async def search_command(interaction: discord.Interaction, game: str):
     await interaction.response.defer()
+    
     try:
-
-
         game_info = search.search_game(game)
 
         if not game_info:
             await interaction.followup.send(f"No games found with name {game}")
             return
+
         embeds = []
 
         for info in game_info:
             embed = discord.Embed(title=info['title'], description=info['readable_status'])
             embed.set_thumbnail(url=info['short_image'])
             
-            protections = ', '.join(eval(info['protections'])) if info['protections'] else 'None'
-            hacked_groups = ', '.join(eval(info['hacked_groups'])) if info['hacked_groups'] else 'None'
+            protections = ', '.join(info['protections']) if info['protections'] else 'None'
+            hacked_groups = info['hacked_groups'] if info['hacked_groups'] else 'None'
             torrent_link = info['torrent_link'] if info['torrent_link'] else 'No torrent link available'
+
+            # this fixes steam bug
+            protections = protections.replace('steam', 'Steam') if protections else 'None'
+
+            # this fixes torrent link bug
+            torrent_link = torrent_link.replace('No', 'Not available') if torrent_link else 'Not available'
 
             embed.add_field(name="Protections", value=protections, inline=False)
             embed.add_field(name="Hacked Groups", value=hacked_groups, inline=False)
@@ -48,10 +54,10 @@ async def search_command(interaction: discord.Interaction, game: str):
 
             embeds.append(embed)
 
+        # Send each embed individually if more than two results
         for embed in embeds:
             await interaction.followup.send(embed=embed)
-
-        
+            
     except Exception as e:
         await interaction.followup.send(f"An error occurred: {e}")
 
